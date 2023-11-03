@@ -20,13 +20,13 @@ public class TokenService {
     /* Como a autenticação é Stateless (não armazenamos a sessão ativa), guardamos todas essas informações no token,
        e esse Token transita entre o cliente-servidor
     */
-    public String generateToken(User user) {
+    public String generateToken(String login) {
         try {
             // Recebe por parâmetro uma Secret, o que faz com que os Hash's sejam únicos.
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("store-auth")
-                    .withSubject(user.getLogin())
+                    .withSubject(login)
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
