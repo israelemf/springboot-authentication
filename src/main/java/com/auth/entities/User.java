@@ -17,11 +17,11 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(length = 100, nullable = false, unique = true)
     private String login;
-    @Column(length = 100, nullable = false)
+    @Column(length = 200, nullable = false)
     private String password;
-    @Column(length = 20, nullable = false)
+    @Column(length = 30, nullable = false)
     private UserRole role;
 
     public User(){
@@ -34,9 +34,9 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public User(String id, String login, UserRole role) {
-        this.id = id;
+    public User(String login, String password, UserRole role) {
         this.login = login;
+        this.password = password;
         this.role = role;
     }
 

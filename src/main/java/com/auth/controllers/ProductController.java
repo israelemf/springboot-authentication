@@ -40,7 +40,7 @@ public class ProductController {
 
         this.repository.save(product);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(product);
     }
 
     @PutMapping
@@ -58,7 +58,7 @@ public class ProductController {
 
         this.repository.deleteAll();
 
-        return ResponseEntity.ok("All products have been deleted\n" + allProducts);
+        return ResponseEntity.ok("All products have been deleted\n" + allProducts.toString());
     }
 
     @DeleteMapping("/{id}")
