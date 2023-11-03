@@ -1,4 +1,6 @@
-package com.auth.domain.Product;
+package com.auth.dto.product;
+
+import com.auth.entities.Product;
 
 import java.math.BigDecimal;
 

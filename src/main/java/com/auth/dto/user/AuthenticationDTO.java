@@ -1,4 +1,4 @@
-package com.auth.domain.User;
+package com.auth.dto.user;
 
 import java.util.Objects;
 

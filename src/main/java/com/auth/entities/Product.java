@@ -1,5 +1,6 @@
-package com.auth.domain.Product;
+package com.auth.entities;
 
+import com.auth.dto.product.ProductRequestDTO;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -11,7 +12,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+    @Column(length = 200, nullable = false)
     private String name;
+    @Column(length = 10, nullable = false, precision = 2)
     private BigDecimal price;
 
     public Product() {

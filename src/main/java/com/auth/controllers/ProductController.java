@@ -1,14 +1,11 @@
-package com.auth.controller;
+package com.auth.controllers;
 
-import com.auth.domain.Product.Product;
-import com.auth.domain.Product.ProductRequestDTO;
-import com.auth.domain.Product.ProductResponseDTO;
-import com.auth.domain.User.User;
+import com.auth.entities.Product;
+import com.auth.dto.product.ProductRequestDTO;
+import com.auth.dto.product.ProductResponseDTO;
 import com.auth.repository.ProductRepository;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/store")
+@RequestMapping("/store/products")
 public class ProductController {
     @Autowired
     private ProductRepository repository;
@@ -30,7 +27,7 @@ public class ProductController {
         return ResponseEntity.ok(productList);
     }
 
-    @GetMapping("/products/{name}")
+    @GetMapping("/{name}")
     public ResponseEntity<Product> getProductByName(@PathVariable(value = "name") String name) {
         Product product = this.repository.findByName(name);
 
@@ -64,7 +61,7 @@ public class ProductController {
         return ResponseEntity.ok("All products have been deleted\n" + allProducts);
     }
 
-    @DeleteMapping("/products/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Optional<Product>> deleteById(@PathVariable(value = "id") String id) {
         Optional<Product> product = this.repository.findById(id);
 

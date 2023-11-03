@@ -1,4 +1,4 @@
-package com.auth.domain.User;
+package com.auth.entities;
 
 import com.auth.enums.UserRole;
 import jakarta.persistence.*;
@@ -17,8 +17,11 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+    @Column(length = 50, nullable = false, unique = true)
     private String login;
+    @Column(length = 100, nullable = false)
     private String password;
+    @Column(length = 20, nullable = false)
     private UserRole role;
 
     public User(){

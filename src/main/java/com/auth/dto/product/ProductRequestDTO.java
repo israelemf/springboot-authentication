@@ -1,7 +1,6 @@
-package com.auth.domain.Product;
+package com.auth.dto.product;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 
 import java.math.BigDecimal;
 
