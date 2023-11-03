@@ -8,6 +8,9 @@ public class ProductResponseDTO {
     private BigDecimal price;
 
     public ProductResponseDTO(String id, String name, BigDecimal price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
     }
 
     public ProductResponseDTO(Product product) {

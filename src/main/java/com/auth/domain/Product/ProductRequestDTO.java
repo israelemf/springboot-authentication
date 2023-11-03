@@ -3,11 +3,32 @@ package com.auth.domain.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.math.BigDecimal;
+
 public class ProductRequestDTO {
     @NotBlank(message = "Product name is required!")
     private String name;
     @NotBlank(message = "Product price is required!")
-    private String price;
+    private BigDecimal price;
 
+    public ProductRequestDTO(String name, BigDecimal price) {
+        this.name = name;
+        this.price = price;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductRequestDTO{" +
+                "name='" + name + '\'' +
+                ", price='" + price + '\'' +
+                '}';
+    }
 }

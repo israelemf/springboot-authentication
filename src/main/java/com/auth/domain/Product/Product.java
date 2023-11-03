@@ -23,6 +23,11 @@ public class Product {
         this.price = price;
     }
 
+    public Product(ProductRequestDTO data) {
+        this.price = data.getPrice();
+        this.name = data.getName();
+    }
+
     public String getId() {
         return id;
     }
