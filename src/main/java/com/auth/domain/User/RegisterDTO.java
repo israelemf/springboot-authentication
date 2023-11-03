@@ -1,11 +1,16 @@
 package com.auth.domain.User;
 
 import com.auth.enums.UserRole;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
 public class RegisterDTO {
+    @NotBlank(message = "Login is required!")
     private String login;
+    @NotBlank(message = "Password is required!")
     private String password;
     private UserRole role;
 
