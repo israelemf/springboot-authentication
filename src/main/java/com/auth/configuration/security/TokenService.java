@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.security.SignatureException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -44,14 +45,11 @@ public class TokenService {
                    .verify(token)
                    .getSubject();
         } catch (JWTVerificationException exception) {
-            /* Quando o token não for válido, retornamos a string vazia, pois o próximo método que precisar do token e
-               receber a String vazia, já vai perceber que não há usuário logado.
-            */
             return "";
         }
     }
 
     private Instant generateExpirationDate() {
-        return LocalDateTime.now().plusSeconds(1).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
     }
 }

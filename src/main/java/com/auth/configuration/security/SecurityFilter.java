@@ -11,25 +11,28 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
+import java.security.SignatureException;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     private TokenService tokenService;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
 
-        if (token != null) {
-            // Quando o token for validado, recebemos o login, para buscar no BD
-            var login = tokenService.validateToken(token);
-            UserDetails user = userRepository.findByLogin(login);
+        // Quando o token for validado, recebemos o login, para buscar no BD
+        var login = tokenService.validateToken(token);
 
+        UserDetails user = userRepository.findByLogin(login);
+
+        if (user != null) {
             // Caso encontre a autorização, setamos a autenticação
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
