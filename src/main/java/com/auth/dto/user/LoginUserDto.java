@@ -2,11 +2,11 @@ package com.auth.dto.user;
 
 import java.util.Objects;
 
-public class AuthenticationDTO {
+public class LoginUserDto {
     private String login;
     private String password;
 
-    public AuthenticationDTO(String login, String password) {
+    public LoginUserDto(String login, String password) {
         this.login = login;
         this.password = password;
     }
@@ -22,7 +22,7 @@ public class AuthenticationDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AuthenticationDTO that)) return false;
+        if (!(o instanceof LoginUserDto that)) return false;
         return Objects.equals(login, that.login) && Objects.equals(password, that.password);
     }
 

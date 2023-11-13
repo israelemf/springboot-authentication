@@ -1,7 +1,7 @@
-package com.auth.configuration.security;
+package com.auth.configuration.security.config;
 
+import com.auth.configuration.security.authentication.SecurityFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 // Classe para indicar que estamos desabilitando as configurações padrões do Spring Security e implementando nossas próprias
 @Configuration
@@ -24,6 +23,20 @@ public class SecurityConfiguration {
     @Autowired
     private SecurityFilter securityFilter;
 
+    public static final String [] ENDPOINTS_NOT_REQUIRING_AUTHENTICATION = {
+            "/auth/login",
+            "/auth/register"
+    };
+
+    public static final String [] ENDPOINTS_WITH_REQUIRING_AUTHENTICATION = {
+            "/users",
+            "/store/products"
+    };
+
+    public static final String [] ENDPOINTS_ADMIN = {
+            "/store/products/add"
+    };
+
     @Bean
     // SecurityFilterChain será conjunto de filtros que vamos aplicar nas nossas requisições, validando as autenticações
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -31,10 +44,10 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET, "/store/products").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/store/products").hasRole("ADMIN")
-                        .anyRequest().authenticated())
+                        .requestMatchers(ENDPOINTS_WITH_REQUIRING_AUTHENTICATION).authenticated()
+                        .requestMatchers(ENDPOINTS_NOT_REQUIRING_AUTHENTICATION).permitAll()
+                        .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMIN")
+                        .anyRequest().denyAll())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
 

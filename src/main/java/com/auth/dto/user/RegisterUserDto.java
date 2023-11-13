@@ -1,16 +1,16 @@
 package com.auth.dto.user;
 
-import com.auth.enums.UserRole;
+import com.auth.enums.RoleName;
 import jakarta.validation.constraints.NotBlank;
 
-public class RegisterDTO {
+public class RegisterUserDto {
     @NotBlank(message = "Login is required!")
-    private String login;
+    private final String login;
     @NotBlank(message = "Password is required!")
-    private String password;
-    private UserRole role;
+    private final String password;
+    private final RoleName role;
 
-    public RegisterDTO(String login, String password, UserRole role) {
+    public RegisterUserDto(String login, String password, RoleName role) {
         this.login = login;
         this.password = password;
         this.role = role;
@@ -24,7 +24,7 @@ public class RegisterDTO {
         return password;
     }
 
-    public UserRole getRole() {
+    public RoleName getRole() {
         return role;
     }
 

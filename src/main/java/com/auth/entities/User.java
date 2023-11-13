@@ -1,6 +1,6 @@
 package com.auth.entities;
 
-import com.auth.enums.UserRole;
+import com.auth.enums.RoleName;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,73 +9,43 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 // Utilizamos users como nome da tabela para não dar conflito com a tabela padrão do banco de dados.
 @Table(name = "users")
 @Entity(name = "users")
-public class User implements UserDetails {
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-    @Column(length = 100, nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(length = 50, unique = true)
     private String login;
-    @Column(length = 200, nullable = false)
+    @Column(length = 200)
     private String password;
-    @Column(length = 30, nullable = false)
-    private UserRole role;
+    // https://cursos.alura.com.br/forum/topico-quando-usar-cascadetype-e-qual-a-diferenca-entre-all-persist-merge-remove-refresh-detach-110962
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "users_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles;
 
-    public User(){
+    public User() {
     }
 
-    public User(String id, String login, String password, UserRole role) {
+    public User(Long id, String login, String password, List<Role> roles) {
         this.id = id;
         this.login = login;
         this.password = password;
-        this.role = role;
+        this.roles = roles;
     }
 
-    public User(String login, String password, UserRole role) {
+    public User(String login, String password, List<Role> roles) {
         this.login = login;
         this.password = password;
-        this.role = role;
+        this.roles = roles;
     }
 
-    // Implements UserDetails
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == UserRole.ADMIN) {
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-        } else {
-            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-        }
-    }
-
-    @Override
-    public String getUsername() {
-        return login;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -87,19 +57,7 @@ public class User implements UserDetails {
         return password;
     }
 
-    public UserRole getRole() {
-        return role;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User user)) return false;
-        return Objects.equals(getId(), user.getId()) && Objects.equals(getLogin(), user.getLogin()) && Objects.equals(getPassword(), user.getPassword()) && getRole() == user.getRole();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
+    public List<Role> getRoles() {
+        return roles;
     }
 }

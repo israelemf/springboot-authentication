@@ -5,9 +5,7 @@ import com.auth.dto.product.ProductResponseDTO;
 import com.auth.entities.Product;
 import com.auth.exceptions.product.ProductNotFoundException;
 import com.auth.repository.ProductRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +15,7 @@ import java.util.Optional;
 @Service
 public class ProductService {
     @Autowired
-    private ProductRepository repository;
+    ProductRepository repository;
 
     public List<ProductResponseDTO> getProducts() {
         List<ProductResponseDTO> products = this.repository
@@ -49,10 +47,8 @@ public class ProductService {
         return product;
     }
 
-    public Product updateProduct(@RequestBody Product product) {
+    public void updateProduct(@RequestBody Product product) {
         this.repository.save(product);
-
-        return product;
     }
 
     public String deleteProducts() {
@@ -62,7 +58,7 @@ public class ProductService {
 
         this.repository.deleteAll();
 
-        return "All products have been deleted\n" + allProducts.toString();
+        return "All products have been deleted\n" + allProducts;
     }
 
     public Optional<Product> deleteById(String id) {

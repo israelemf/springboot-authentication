@@ -7,27 +7,25 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Table(name = "products")
-@Entity(name = "products")
+@Entity
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @Column(length = 200, nullable = false)
     private String name;
+    private String description;
+    @Column(nullable = false)
+    private Integer quantity;
     @Column(length = 10, nullable = false)
     private BigDecimal price;
 
     public Product() {
     }
 
-    public Product(String id, String name, BigDecimal price) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-    }
-
     public Product(ProductRequestDTO data) {
         this.price = data.getPrice();
+        this.quantity = data.getQuantity();
         this.name = data.getName();
     }
 
@@ -37,6 +35,14 @@ public class Product {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
     }
 
     public BigDecimal getPrice() {

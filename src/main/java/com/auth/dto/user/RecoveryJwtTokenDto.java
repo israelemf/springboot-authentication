@@ -2,10 +2,10 @@ package com.auth.dto.user;
 
 import java.util.Objects;
 
-public class LoginResponseDTO {
+public class RecoveryJwtTokenDto {
     private String token;
 
-    public LoginResponseDTO(String token) {
+    public RecoveryJwtTokenDto(String token) {
         this.token = token;
     }
 
@@ -16,7 +16,7 @@ public class LoginResponseDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof LoginResponseDTO that)) return false;
+        if (!(o instanceof RecoveryJwtTokenDto that)) return false;
         return Objects.equals(getToken(), that.getToken());
     }
 
