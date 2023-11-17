@@ -14,6 +14,12 @@ public class ErrorStructure {
     public ErrorStructure() {
     }
 
+    public ErrorStructure(LocalDateTime timestamp, Integer code, String status) {
+        this.timestamp = timestamp;
+        this.code = code;
+        this.status = status;
+    }
+
     public ErrorStructure(LocalDateTime timestamp, Integer code, String status, List<String> errors) {
         this.timestamp = timestamp;
         this.code = code;

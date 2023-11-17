@@ -60,12 +60,13 @@ public class UserService {
 
     public void register(RegisterUserDto data) {
         String encryptedPassword = this.bCryptPasswordEncoder.encode(data.getPassword());
+        String login = data.getLogin();
 
-        if (this.repository.findByLogin(data.getLogin()) != null) {
-            throw new UserExistsException();
+        if (this.repository.findByLogin(login) != null) {
+            throw new UserExistsException(login);
         }
 
-        User user = new User(data.getLogin(), encryptedPassword, List.of(new Role(data.getRole())));
+        User user = new User(login, encryptedPassword, List.of(new Role(data.getRole())));
         this.repository.save(user);
     }
 }

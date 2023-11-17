@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
@@ -28,7 +27,7 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(UserExistsException.class)
-    public ResponseEntity<ErrorStructure> existsException(RuntimeException exception) {
+    public ResponseEntity<ErrorStructure> forbiddenException(RuntimeException exception) {
         ErrorStructure errorStructure = new ErrorStructure(LocalDateTime.now(),
                 HttpStatus.FORBIDDEN.value(),
                 HttpStatus.FORBIDDEN.name(),

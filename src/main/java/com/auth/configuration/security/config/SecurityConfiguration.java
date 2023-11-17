@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.security.NoSuchAlgorithmException;
 
 // Classe para indicar que estamos desabilitando as configurações padrões do Spring Security e implementando nossas próprias
 @Configuration
@@ -49,6 +52,7 @@ public class SecurityConfiguration {
                         .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMIN")
                         .anyRequest().denyAll())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .cors(Customizer.withDefaults())
                 .build();
 
         // Stateful: Armazenamos as informações das sessões dos usuários

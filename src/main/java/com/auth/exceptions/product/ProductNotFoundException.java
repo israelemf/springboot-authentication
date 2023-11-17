@@ -1,7 +1,9 @@
 package com.auth.exceptions.product;
 
-public class ProductNotFoundException extends RuntimeException {
+import com.auth.exceptions.GlobalException;
+
+public class ProductNotFoundException extends GlobalException {
     public ProductNotFoundException() {
-        super("Product not found!");
+        super("Products not found!");
     }
 }
